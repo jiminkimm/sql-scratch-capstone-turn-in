@@ -1,0 +1,420 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 CourierNewPSMT;\f2\froman\fcharset0 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 SQL Codes\
+
+\fs24 2.1 Sample of Table \'91survey\'92\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1\b0 \cf2 \expnd0\expndtw0\kerning0
+SELECT *
+\f2 \
+
+\f1 FROM survey
+\f2 \
+
+\f1 LIMIT 10;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+
+\b 2.2 Quiz Results\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1\b0 \cf2 \expnd0\expndtw0\kerning0
+SELECT question, 
+\f2 \
+
+\f1 COUNT (DISTINCT user_id) AS \'91count\'92
+\f2 \
+
+\f1 FROM survey
+\f2 \
+
+\f1 GROUP BY 1;
+\f2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b \cf0 3.1 Funnels Tables\
+
+\b0 \'91quiz\'92\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+ SELECT *
+\f2 \
+
+\f1 \'a0FROM quiz
+\f2 \
+
+\f1 \'a0LIMIT 5;
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \'91home_try_on\'92\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\'a0SELECT *
+\f2 \
+
+\f1 \'a0FROM home_try_on
+\f2 \
+
+\f1 \'a0LIMIT 5;
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \'91purchase\'92
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 \'a0SELECT *
+\f2 \
+
+\f1 \'a0FROM purchase
+\f2 \
+
+\f1 \'a0LIMIT 5;
+\f2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+3.2 Create New Table\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1\b0 \cf2 \expnd0\expndtw0\kerning0
+SELECT DISTINCT q.user_id,
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN h.user_id IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN 'True'
+\f2 \
+
+\f1 \'a0 ELSE 'False'
+\f2 \
+
+\f1 \'a0 END AS 'is_home_try_on\'92,
+\f2 \
+
+\f1 \'a0
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN h.number_of_pairs IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN h.number_of_pairs
+\f2 \
+
+\f1 \'a0 ELSE 'NULL'
+\f2 \
+
+\f1 \'a0 END AS 'number_of_pairs\'92,
+\f2 \
+
+\f1 \'a0
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN p.user_id IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN 'True'
+\f2 \
+
+\f1 \'a0 ELSE 'False'
+\f2 \
+
+\f1 \'a0 END AS 'is_purchase\'92
+\f2 \
+\
+
+\f1 FROM quiz AS 'q\'92
+\f2 \
+
+\f1 LEFT JOIN home_try_on AS 'h'
+\f2 \
+
+\f1 \'a0ON q.user_id = h.user_id
+\f2 \
+
+\f1 LEFT JOIN purchase AS 'p'
+\f2 \
+
+\f1 \'a0ON h.user_id = p.user_id
+\f2 \
+
+\f1 LIMIT 10;
+\f2 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b \cf0 \kerning1\expnd0\expndtw0 4.1 A/B Testing
+\f1\b0 \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 WITH funnels AS(
+\f2 \
+
+\f1 SELECT DISTINCT q.user_id,
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN h.user_id IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN 'True'
+\f2 \
+
+\f1 \'a0 ELSE 'False'
+\f2 \
+
+\f1 \'a0 END AS 'is_home_try_on\'92,
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN h.number_of_pairs IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN h.number_of_pairs
+\f2 \
+
+\f1 \'a0 ELSE 'NULL'
+\f2 \
+
+\f1 \'a0 END AS 'number_of_pairs\'92,
+\f2 \
+
+\f1 \'a0CASE
+\f2 \
+
+\f1 \'a0 WHEN p.user_id IS NOT NULL
+\f2 \
+
+\f1 \'a0 THEN 'True'
+\f2 \
+
+\f1 \'a0 ELSE 'False'
+\f2 \
+
+\f1 \'a0 END AS 'is_purchase\'92)
+\f2 \
+\
+
+\f1 SELECT number_of_pairs, 
+\f2 \
+
+\f1 \'a0COUNT (DISTINCT
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0\'a0  CASE
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0\'a0  WHEN is_purchase = 'True'
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0\'a0  THEN user_id
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0\'a0  END) AS 'purchased',
+\f2 \
+
+\f1 \'a0COUNT (DISTINCT
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0   CASE
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0   WHEN is_purchase = 'False'
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0   THEN user_id
+\f2 \
+
+\f1 \'a0\'a0\'a0\'a0\'a0\'a0   END) AS 'not_purchased',
+\f2 \
+
+\f1 \'a0COUNT (is_purchase) AS 'total'
+\f2 \
+
+\f1 \'a0FROM funnels
+\f2 \
+
+\f1 \'a0WHERE number_of_pairs IS NOT 'NULL'
+\f2 \
+
+\f1 \'a0GROUP BY 1;
+\f2 \
+\
+
+\f0\b \cf0 \kerning1\expnd0\expndtw0 4.2 Conversion Rate Analysis\
+
+\f1\b0 \cf2 \expnd0\expndtw0\kerning0
+WITH funnels AS(
+\f2 \
+
+\f1 SELECT DISTINCT q.user_id, 
+\f2 \
+
+\f1 \'a0h.user_id IS NOT NULL AS 'is_home_try_on',
+\f2 \
+
+\f1 \'a0h.number_of_pairs IS NOT NULL AS 'number_of_pairs',
+\f2 \
+
+\f1 \'a0p.user_id IS NOT NULL AS 'is_purchase\'92 
+\f2 \
+
+\f1 FROM quiz AS 'q'
+\f2 \
+
+\f1 \'a0LEFT JOIN home_try_on AS 'h'
+\f2 \
+
+\f1 \'a0ON q.user_id = h.user_id
+\f2 \
+
+\f1 \'a0LEFT JOIN purchase AS 'p'
+\f2 \
+
+\f1 \'a0ON h.user_id = p.user_id)
+\f2 \
+\
+
+\f1 SELECT COUNT (*) AS 'quiz',
+\f2 \
+
+\f1 \'a0SUM(is_home_try_on) AS 'num_home',
+\f2 \
+
+\f1 \'a0SUM(is_purchase) AS 'num_purchase',
+\f2 \
+
+\f1 \'a01.0 * SUM(is_home_try_on) / COUNT(user_id) AS 'quiz_to_home',
+\f2 \
+
+\f1 \'a01.0 * SUM(is_purchase) / SUM(is_home_try_on) AS 'home_to_purchase'
+\f2 \
+
+\f1 FROM funnels;
+\f2 \
+\
+
+\f0\b \cf0 \kerning1\expnd0\expndtw0 4.3 Most Common Results of Quiz\
+
+\b0 \'91style\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT style AS 'Style\'92, COUNT(*) AS 'Number Answered'
+\f2 \
+
+\f1 FROM quiz
+\f2 \
+
+\f1 GROUP BY 1;
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+
+\b0 \'91color\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT color AS 'Color\'92, COUNT(*) AS 'Number Answered'
+\f2 \
+
+\f1 FROM quiz
+\f2 \
+
+\f1 GROUP BY 1;
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+
+\b0 \'91shape\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT shape AS 'Shape\'92, COUNT(*) AS 'Number Answered'
+\f2 \
+
+\f1 FROM quiz
+\f2 \
+
+\f1 GROUP BY 1;
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+
+\b0 \'91fit\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT fit AS 'Fit', COUNT(*) AS 'Number Answered'
+\f2 \
+
+\f1 FROM quiz
+\f2 \
+
+\f1 GROUP BY 1;
+\f2 \
+\
+
+\f0\b \cf0 \kerning1\expnd0\expndtw0 4.4 Most Common Types of Purchase\
+
+\b0 \'91product id\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT product_id AS 'Product id\'92, 
+\f2 \
+
+\f1 \'a0COUNT(*) AS 'Number Purchased'
+\f2 \
+
+\f1 FROM purchase
+\f2 \
+
+\f1 GROUP BY 1;
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+
+\b0 \'91model name\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT model_name AS 'Model Name\'92,\'a0\'a0\'a0\'a0\'a0\'a0 
+\f2 \
+
+\f1 \'a0COUNT(*) AS 'Number Purchased'
+\f2 \
+
+\f1 FROM purchase
+\f2 \
+
+\f1 GROUP BY 1;
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+
+\b0 \'91color\'92\
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+SELECT color AS 'Color\'92, 
+\f2 \
+
+\f1 \'a0COUNT(*) AS 'Number Purchased'
+\f2 \
+
+\f1 FROM purchase
+\f2 \
+
+\f1 GROUP BY 1;
+\f2 \
+}
